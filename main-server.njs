@@ -1,13 +1,18 @@
 var net = require('net');
+var debug = false;
+function getMemUsed() {
+    return process.memoryUsage().heapUsed;
+}
 
 var PORT = 8081;
+var HOST = '0.0.0.0';
 
 var server =  net.createServer(function(sock) {
 	sock.setEncoding('utf-8');
-    console.log('Connected: ' + sock.remoteAddress +':'+ sock.remotePort);
+	if(debug) console.log('Connected: ' + sock.remoteAddress +':'+ sock.remotePort);
     
     sock.on('data', function(data) {
-    	console.log('message received: %d', data.length);
+    	if(debug) console.log('message received: %d', data.length);
     	var index = data.indexOf(':');
     	if(index < 0){
     		if(data.charAt(0) == 'q'){
@@ -25,7 +30,7 @@ var server =  net.createServer(function(sock) {
     });
     
     sock.on('end', function(data) {
-        console.log('Disconnected: ' + sock.remoteAddress +':'+ sock.remotePort);
+    	if(debug) console.log('Disconnected: ' + sock.remoteAddress +':'+ sock.remotePort);
     });
     
     sock.on('error', function(e){
@@ -40,3 +45,7 @@ server.listen(PORT, function(){
 	console.log('Server address: %j', server.address());
 });
 
+setInterval(function() {
+    gc();
+    if(debug) console.log('heap size: %d', getMemUsed());
+}, 5000)

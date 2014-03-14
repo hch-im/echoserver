@@ -6,9 +6,14 @@ function getMemUsed() {
 
 var PORT = 8081;
 var HOST = '0.0.0.0';
+var maxSize = 1024 * 1024;
 
 var server =  net.createServer(function(sock) {
 	sock.setEncoding('utf-8');
+	sock.setTimeout(10000, function(){
+		sock.destroy();
+	});
+	
 	if(debug) console.log('Connected: ' + sock.remoteAddress +':'+ sock.remotePort);
     
     sock.on('data', function(data) {
@@ -22,7 +27,9 @@ var server =  net.createServer(function(sock) {
     			    }, 3000);
     		}
     	}else{
-        	var size = parseInt(data.substring(0, index), 10);    	
+        	var size = parseInt(data.substring(0, index), 10);   
+        	if(size > maxSize) size = maxSize;
+        	
         	for(i = 0; i < size; i++)
         		sock.write('x');
         	sock.write('\r\n');    		
@@ -45,7 +52,7 @@ server.listen(PORT, HOST, function(){
 	console.log('Server address: %j', server.address());
 });
 
-setInterval(function() {
-    gc();
-    if(debug) console.log('heap size: %d', getMemUsed());
-}, 5000)
+//setInterval(function() {
+//	global.gc();
+//    if(debug) console.log('heap size: %d', getMemUsed());
+//}, 5000)

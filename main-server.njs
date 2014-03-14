@@ -41,7 +41,7 @@ var server =  net.createServer(function(sock) {
 	sock.write('message format: [echo size]:[you message]\r\n');    
 });
 
-server.listen(PORT, function(){
+server.listen(PORT, HOST, function(){
 	console.log('Server address: %j', server.address());
 });
 

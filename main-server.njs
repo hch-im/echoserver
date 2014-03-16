@@ -7,7 +7,7 @@ var maxSize = 1024 * 1024 * 10;
 
 var server =  net.createServer(function(sock) {
 	sock.setEncoding('utf-8');
-	sock.setTimeout(10000, function(){
+	sock.setTimeout(600000, function(){
 		sock.destroy();
 	});
 	

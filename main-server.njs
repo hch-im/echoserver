@@ -1,5 +1,5 @@
 var net = require('net');
-var debug = true;
+var debug = false;
 
 var PORT = 8081;
 var HOST = '0.0.0.0';

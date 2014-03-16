@@ -1,9 +1,13 @@
 var net = require('net');
-var debug = false;
+var debug = true;
 
 var PORT = 8081;
 var HOST = '0.0.0.0';
 var maxSize = 1024 * 1024 * 10;
+var sendStr = "";
+
+for(i = 0; i < 4096; i++)
+	sendStr += 'X';
 
 var server =  net.createServer(function(sock) {
 	sock.setEncoding('utf-8');
@@ -48,9 +52,17 @@ var server =  net.createServer(function(sock) {
     	
     	if(size > maxSize) size = maxSize;
     	if(size > 0){
+    		if(debug) console.log('req size: ' + size);    		
     		var i = size;
-        	while(i-- > 0)
-        		sock.write('x');
+    		var len;
+        	while(i > 0){
+        		len = i > sendStr.length ? sendStr.length : i;
+        		if(len == sendStr.length)
+        			sock.write(sendStr);
+        		else
+        			sock.write(sendStr.subString(0, len));
+        		i -= len;
+        	}
         	sock.write('\r\n');    		    		
     		if(debug) console.log('send: ' + size);
     	}

@@ -60,7 +60,7 @@ var server =  net.createServer(function(sock) {
         		if(len == sendStr.length)
         			sock.write(sendStr);
         		else
-        			sock.write(sendStr.subString(0, len));
+        			sock.write(sendStr.substring(0, len));
         		i -= len;
         	}
         	sock.write('\r\n');    		    		

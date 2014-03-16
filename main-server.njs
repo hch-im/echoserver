@@ -65,7 +65,7 @@ var server =  net.createServer(function(sock) {
     });
     
     sock.write('hello\r\n');
-	sock.write('message format: [echo size]:[you message]\r\n');    
+	sock.write('message format: [B|K|M][echo size]$[you message]\r\n');    
 });
 
 server.listen(PORT, HOST, function(){

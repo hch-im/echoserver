@@ -20,18 +20,18 @@ var server =  net.createServer(function(sock) {
     	case 'B':
     	case 'b':
         	var index = data.indexOf('$'); 
-        	var size = parseInt(data.substring(1, index), 10);           	
+        	size = parseInt(data.substring(1, index), 10);           	
     		break;
     	case 'K':
     	case 'k':
         	var index = data.indexOf('$'); 
-        	var size = parseInt(data.substring(1, index), 10);           	
+        	size = parseInt(data.substring(1, index), 10);           	
         	size *= 1024;
     		break;
     	case 'M':
     	case 'm':
         	var index = data.indexOf('$'); 
-        	var size = parseInt(data.substring(1, index), 10);           	
+        	size = parseInt(data.substring(1, index), 10);           	
         	size *= (1024 * 1024);    		
     		break;
     	case 'Q':
@@ -57,7 +57,7 @@ var server =  net.createServer(function(sock) {
     });
     
     sock.on('end', function(data) {
-    	if(debug) console.log('Disconnected: ' + sock.remoteAddress +':'+ sock.remotePort);
+    	if(debug) console.log('Disconnected. ');
     });
     
     sock.on('error', function(e){
